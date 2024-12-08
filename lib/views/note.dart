@@ -14,6 +14,7 @@ class NoteView extends StatefulWidget {
 
 class _NoteViewState extends State<NoteView> {
   late TextEditingController _titleController;
+  late FocusNode _titleFocusNode;
   late TextEditingController _addController;
   late FocusNode _addFocusNode;
 
@@ -23,6 +24,7 @@ class _NoteViewState extends State<NoteView> {
     final Note note = context.read<Note>();
 
     _titleController = TextEditingController(text: note.title);
+    _titleFocusNode = FocusNode();
     _titleController.addListener(() {
       if (note.title == _titleController.text) return;
       note.title = _titleController.text;
@@ -50,6 +52,8 @@ class _NoteViewState extends State<NoteView> {
               const SizedBox(height: 36.0),
               TextField(
                   controller: _titleController,
+                  focusNode: _titleFocusNode,
+                  autofocus: note.title == '',
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     hintText: 'Title',

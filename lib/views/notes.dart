@@ -30,7 +30,18 @@ class _NotesViewState extends State<NotesView> {
         title: const Text('Buys'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<NotesStore>().createNote(),
+        onPressed: () async {
+          var note = await context.read<NotesStore>().createNote();
+          // ignore: use_build_context_synchronously
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) {
+              return ChangeNotifierProvider.value(
+                value: note,
+                child: const NoteView(),
+              );
+            }),
+          );
+        },
         child: const Icon(YaruIcons.plus),
       ),
       body: GridView(

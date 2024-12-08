@@ -38,7 +38,7 @@ class NotesStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Note> createNote({String title = 'Untitled'}) async {
+  Future<Note> createNote({String title = ''}) async {
     var note = Note(
       id: const Uuid().v4(),
       title: title,
