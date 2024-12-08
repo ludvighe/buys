@@ -54,42 +54,42 @@ class _NotesViewState extends State<NotesView> {
 }
 
 Widget notesCard(BuildContext context) {
-  return Consumer<Note>(builder: (context, note, _) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) {
-            return ChangeNotifierProvider.value(
-              value: note,
-              child: const NoteView(),
-            );
-          }),
-        ),
-        onLongPress: () {
-          showYesNoModal(
+  return Consumer<Note>(
+    builder: (context, note, _) {
+      return Card(
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        child: InkWell(
+          borderRadius: borderRadius,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) {
+              return ChangeNotifierProvider.value(
+                value: note,
+                child: const NoteView(),
+              );
+            }),
+          ),
+          onLongPress: () => showYesNoModal(
             context,
             question: 'Confirm deletion of: "${note.title}"',
             onYes: () => context.read<NotesStore>().removeNote(note),
-          );
-        },
-        child: Padding(
-          padding: edgeInsetsVertical,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                note.title,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              Text(
-                '${note.items.where((i) => !i.checked).length} / ${note.items.length}',
-              ),
-            ],
+          ),
+          child: Padding(
+            padding: edgeInsetsVertical,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  note.title,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  '${note.items.where((i) => !i.checked).length} / ${note.items.length}',
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  });
+      );
+    },
+  );
 }
